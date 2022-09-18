@@ -1,0 +1,9 @@
+{
+  "mongoURI": "",
+  "jwtSecret": "",
+  "jwtOptions": { "expiresIn": 360000 },
+  "defaultProfileFields": {
+    "bio": "Hey there I'm using Budget Bucket!"
+  },
+  "signedInToken": ""
+}
