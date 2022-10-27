@@ -11,6 +11,8 @@ const auth = require("../../middleware/auth");
 // Models
 const User = require("../../models/User");
 
+const { SERVER_ERROR, VALID_EMAIL, PASSWORD_REQUIRED } = config.get("strings");
+
 /**
  * @route   GET api/auth
  * @desc    Test route
@@ -22,7 +24,7 @@ router.get("/", auth, async (req, res) => {
     res.json(user);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send("Server Error");
+    res.status(500).send(SERVER_ERROR);
   }
 });
 
@@ -34,8 +36,8 @@ router.get("/", auth, async (req, res) => {
 router.post(
   "/",
   [
-    check("email", "Please include a valid email").isEmail(),
-    check("password", "Password is required").exists(),
+    check("email", VALID_EMAIL).isEmail(),
+    check("password", PASSWORD_REQUIRED).exists(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -49,16 +51,12 @@ router.post(
     try {
       let user = await User.findOne({ email });
       if (!user) {
-        return res
-          .status(400)
-          .json({ errors: [{ msg: "Invalid Credentials!" }] });
+        return res.status(400).json({ errors: [{ msg: INVALID_CREDENTIALS }] });
       }
 
       const isMatched = await bcrypt.compare(password, user.password);
       if (!isMatched) {
-        return res
-          .status(400)
-          .json({ errors: [{ msg: "Invalid Credentials!" }] });
+        return res.status(400).json({ errors: [{ msg: INVALID_CREDENTIALS }] });
       }
 
       const payload = {
@@ -78,7 +76,7 @@ router.post(
       );
     } catch (err) {
       console.error(err.message);
-      res.status(500).send("Server Error");
+      res.status(500).send(SERVER_ERROR);
     }
   }
 );

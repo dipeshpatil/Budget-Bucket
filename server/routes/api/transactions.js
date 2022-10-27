@@ -8,6 +8,20 @@ const auth = require("../../middleware/auth");
 // Models
 const Transaction = require("../../models/Transaction");
 
+const {
+  SERVER_ERROR,
+  NOT_AUTHORIZED,
+  CATEGORY_REQUIRED,
+  AMOUNT_REQUIRED,
+  VALID_AMOUNT,
+  TYPE_REQUIRED,
+  VALID_TYPE,
+  VALID_TYPE_VALUES,
+  TRANSACTION_NOT_FOUND,
+  TRANSACTION_REMOVED,
+  TRANSACTION_UPDATED,
+} = config.get("strings");
+
 /**
  * @route   POST api/transaction
  * @desc    Create a transaction
@@ -18,14 +32,11 @@ router.post(
   [
     auth,
     [
-      check("category", "Category is required").not().isEmpty(),
-      check("amount", "Amount is required").not().isEmpty(),
-      check("amount", "Amount should be a Number").isNumeric(),
-      check("type", "Type is required").not().isEmpty(),
-      check("type", "Type should be either Income or Spend").isIn([
-        "Spend",
-        "Income",
-      ]),
+      check("category", CATEGORY_REQUIRED).not().isEmpty(),
+      check("amount", AMOUNT_REQUIRED).not().isEmpty(),
+      check("amount", VALID_AMOUNT).isNumeric(),
+      check("type", TYPE_REQUIRED).not().isEmpty(),
+      check("type", VALID_TYPE).isIn(VALID_TYPE_VALUES),
     ],
   ],
   async (req, res) => {
@@ -47,7 +58,7 @@ router.post(
       res.json(transaction);
     } catch (err) {
       console.error(err.message);
-      res.status(500).send("Server Error");
+      res.status(500).send(SERVER_ERROR);
     }
   }
 );
@@ -63,12 +74,12 @@ router.get("/", auth, async (req, res) => {
       date: -1,
     });
     if (!transactions) {
-      return res.status(404).json({ message: "No Transactions Found" });
+      return res.status(404).json({ message: TRANSACTION_NOT_FOUND });
     }
     res.json(transactions);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send("Server Error");
+    res.status(500).send(SERVER_ERROR);
   }
 });
 
@@ -81,19 +92,19 @@ router.delete("/:id", auth, async (req, res) => {
   try {
     const transaction = await Transaction.findById(req.params.id);
     if (!transaction) {
-      return res.status(404).json({ message: "No Transaction Found" });
+      return res.status(404).json({ message: TRANSACTION_NOT_FOUND });
     }
     if (transaction.user.toString() !== req.user.id) {
-      return res.status(401).json({ message: "Not Authorized!" });
+      return res.status(401).json({ message: NOT_AUTHORIZED });
     }
     await transaction.remove();
-    res.json({ message: "Transaction Removed!" });
+    res.json({ message: TRANSACTION_REMOVED });
   } catch (err) {
     console.error(err.message);
     if (err.kind === "ObjectId") {
-      return res.status(404).json({ message: "Transaction Not Found" });
+      return res.status(404).json({ message: TRANSACTION_NOT_FOUND });
     }
-    res.status(500).send("Server Error");
+    res.status(500).send(SERVER_ERROR);
   }
 });
 
@@ -106,24 +117,21 @@ router.put(
   "/:id",
   auth,
   [
-    check("category", "Category is required").not().isEmpty(),
-    check("amount", "Amount is required").not().isEmpty(),
-    check("amount", "Amount should be a Number").isNumeric(),
-    check("type", "Type is required").not().isEmpty(),
-    check("type", "Type should be either Income or Spend").isIn([
-      "Spend",
-      "Income",
-    ]),
+    check("category", CATEGORY_REQUIRED).not().isEmpty(),
+    check("amount", AMOUNT_REQUIRED).not().isEmpty(),
+    check("amount", VALID_AMOUNT).isNumeric(),
+    check("type", VALID_TYPE).not().isEmpty(),
+    check("type", TYPE_REQUIRED).isIn(),
   ],
   async (req, res) => {
     try {
       const transaction = await Transaction.findById(req.params.id);
 
       if (!transaction) {
-        return res.status(404).json({ message: "No Transaction Found" });
+        return res.status(404).json({ message: TRANSACTION_NOT_FOUND });
       }
       if (transaction.user.toString() !== req.user.id) {
-        return res.status(401).json({ message: "Not Authorized!" });
+        return res.status(401).json({ message: NOT_AUTHORIZED });
       }
       if (transaction) {
         const { category, amount, date, type, description } = req.body;
@@ -136,13 +144,13 @@ router.put(
 
         await transaction.save();
       }
-      res.json({ message: "Transaction Updated!", transaction });
+      res.json({ message: TRANSACTION_UPDATED, transaction });
     } catch (err) {
       console.error(err.message);
       if (err.kind === "ObjectId") {
-        return res.status(404).json({ message: "Transaction Not Found" });
+        return res.status(404).json({ message: TRANSACTION_NOT_FOUND });
       }
-      res.status(500).send("Server Error");
+      res.status(500).send(SERVER_ERROR);
     }
   }
 );

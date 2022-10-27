@@ -9,6 +9,14 @@ const { check, validationResult } = require("express-validator");
 const router = express.Router();
 const User = require("../../models/User");
 
+const {
+  SERVER_ERROR,
+  NAME_REQUIRED,
+  VALID_EMAIL,
+  VALID_PASSWORD,
+  USER_EXISTS,
+} = config.get("strings");
+
 /**
  * @route   POST api/users
  * @desc    Register User
@@ -17,12 +25,9 @@ const User = require("../../models/User");
 router.post(
   "/",
   [
-    check("name", "Name is required").not().isEmpty(),
-    check("email", "Please include a valid email").isEmail(),
-    check(
-      "password",
-      "Please enter a password with 6 or more characters"
-    ).isLength({ min: 6 }),
+    check("name", NAME_REQUIRED).not().isEmpty(),
+    check("email", VALID_EMAIL).isEmail(),
+    check("password", VALID_PASSWORD).isLength({ min: 6 }),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -38,9 +43,7 @@ router.post(
 
       // Check if user already exists
       if (user) {
-        return res
-          .status(400)
-          .json({ errors: [{ msg: "User already exists!" }] });
+        return res.status(400).json({ errors: [{ msg: USER_EXISTS }] });
       }
 
       // Get users gravatar
@@ -75,7 +78,7 @@ router.post(
       );
     } catch (err) {
       console.error(err.message);
-      res.status(500).send("Server Error");
+      res.status(500).send(SERVER_ERROR);
     }
   }
 );
