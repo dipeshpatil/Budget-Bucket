@@ -121,7 +121,7 @@ router.put(
     check("amount", AMOUNT_REQUIRED).not().isEmpty(),
     check("amount", VALID_AMOUNT).isNumeric(),
     check("type", VALID_TYPE).not().isEmpty(),
-    check("type", TYPE_REQUIRED).isIn(),
+    check("type", TYPE_REQUIRED).isIn(VALID_TYPE_VALUES),
   ],
   async (req, res) => {
     try {
