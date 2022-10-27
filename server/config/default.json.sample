@@ -5,5 +5,9 @@
   "defaultProfileFields": {
     "bio": "Hey there I'm using Budget Bucket!"
   },
-  "signedInToken": ""
+  "signedInToken": "",
+  "strings": {
+    "NO_AUTH_TOKEN_MESSAGE": "No Token, Authorization Denied!",
+    "INVALID_TOKEN": "Token Error!"
+  }
 }
