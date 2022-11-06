@@ -1,0 +1,90 @@
+[
+  {
+    "id": 1,
+    "category": "Metro",
+    "description": "DN Nagar to Ghatkopar",
+    "date": "2022-09-18T16:32:55.060+00:00",
+    "amount": 75,
+    "type": "Spend"
+  },
+  {
+    "id": 2,
+    "category": "Recharge",
+    "description": "Jio Recharge 3 Months",
+    "date": "2022-09-17T16:32:55.060+00:00",
+    "amount": 385,
+    "type": "Spend"
+  },
+  {
+    "id": 3,
+    "category": "Restaurant",
+    "description": "Fried Rice",
+    "date": "2022-09-17T15:30:00.060+00:00",
+    "amount": 140,
+    "type": "Spend"
+  },
+  {
+    "id": 4,
+    "category": "Salary",
+    "description": "Salary",
+    "date": "2022-09-15T15:30:00.060+00:00",
+    "amount": 3000,
+    "type": "Income"
+  },
+  {
+    "id": 5,
+    "category": "Restaurant",
+    "description": "Bakery",
+    "date": "2022-09-15T15:30:00.060+00:00",
+    "amount": 100,
+    "type": "Spend"
+  },
+  {
+    "id": 6,
+    "category": "Metro",
+    "description": "",
+    "date": "2022-09-15T15:30:00.060+00:00",
+    "amount": 75,
+    "type": "Spend"
+  },
+  {
+    "id": 7,
+    "category": "Online",
+    "description": "PS4 Game",
+    "date": "2022-09-15T15:30:00.060+00:00",
+    "amount": 558,
+    "type": "Spend"
+  },
+  {
+    "id": 8,
+    "category": "Recharge",
+    "description": "Data Addon",
+    "date": "2022-09-15T15:30:00.060+00:00",
+    "amount": 61,
+    "type": "Spend"
+  },
+  {
+    "id": 9,
+    "category": "Shopping",
+    "description": "Plix Sachets",
+    "date": "2022-09-15T15:30:00.060+00:00",
+    "amount": 400,
+    "type": "Spend"
+  },
+  {
+    "id": 10,
+    "category": "Restaurant",
+    "description": "Chinese",
+    "date": "2022-09-15T15:30:00.060+00:00",
+    "amount": 80,
+    "type": "Spend"
+  },
+  {
+    "id": 11,
+    "category": "Restaurant",
+    "description": "Chopper Rice",
+    "date": "2022-09-15T15:30:00.060+00:00",
+    "amount": 120,
+    "type": "Spend"
+  }
+]
