@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server",
-    "server": "nodemon server"
+    "server": "PORT=3001 nodemon server"
   },
   "author": "Dipesh Patil",
   "license": "ISC",
