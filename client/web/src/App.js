@@ -1,11 +1,12 @@
+import { Fragment } from "react";
 import { Switch, Route } from "react-router-dom";
 
-import Login from "./components/auth/Login";
+import NavBar from "./layout/Navbar";
 import Register from "./components/auth/Register";
+import Login from "./components/auth/Login";
+import Dashboard from "./components/dashboard/Dashboard";
 
 import "./App.css";
-import { Fragment } from "react";
-import NavBar from "./layout/Navbar";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Switch>
         <Route exact path="/register" component={Register} />
         <Route exact path="/login" component={Login} />
+        <Route exact path="/dashboard" component={Dashboard} />
       </Switch>
     </Fragment>
   );

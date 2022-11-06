@@ -17,6 +17,9 @@ const NavBar = () => {
             <Link className="nav-link" to="/register">
               Register
             </Link>
+            <Link className="nav-link" to="/dashboard">
+              Dashboard
+            </Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
